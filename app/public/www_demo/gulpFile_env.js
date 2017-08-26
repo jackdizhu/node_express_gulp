@@ -17,6 +17,7 @@ var gulp = require('gulp'),
   nodemon=require('gulp-nodemon'),
   express=require('gulp-express'),
   clean = require('gulp-clean'),
+  imagemin = require('gulp-imagemin'),
 
   gulp_webpack = require('gulp-webpack'),
   webpack= require('webpack'),
@@ -85,14 +86,28 @@ var gulp = require('gulp'),
     gulp.src(basePath + 'src/index.js')
       .pipe(gulp_webpack(webpack_config,webpack))
       .pipe(gulp.dest(basePath + 'dist/'))
-      .pipe(devHtml({
-          files: ['./public/html/demo04.html']
-      }))
+      // .pipe(devHtml({
+      //     files: ['./public/html/demo04.html']
+      // }))
       // .pipe(livereload());
+  });
+
+  // 压缩图片
+  gulp.task('imgMin',['cleanImg'],function () {
+      gulp.src(basePath + 'src/img/**/*.*')    //原图片的位置
+        .pipe(imagemin())                   //执行图片压缩
+        .pipe(gulp.dest(basePath + 'dist/img'));    //压缩后的图片输出的位置
+  });
+  // 清理图片文件
+  gulp.task('cleanImg',function () {
+      gulp.src(basePath + 'dist/img',{read:false})
+        .pipe(clean());
   });
 
   //定义默认任务
   gulp.task('default',['watchBuild','watchLess']);
-//   gulp.task('default',['watchLess']);
   gulp.run('default');
-  // express.run(['./app/bin/www']);
+  // 压缩图片 启动时执行一次
+  gulp.task('img_Min',['cleanImg','imgMin']);
+  gulp.run('img_Min');
+

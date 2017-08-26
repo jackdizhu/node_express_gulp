@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta name="renderer" content="webkit" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="Expires" content="-1"/>
+
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <title>test</title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="stylesheet" href="../dist/css/base.css">
+    <link rel="stylesheet" href="../dist/css/index.css">
+
+
+</head>
+<body>
+
+  <div id="app" class="chatPage">
+      <div class="friendsList">
+          <ul>
+              <li v-for="li in friendsList" :class="li.user.username==touser.username ? 'on' : ''" @click="friendsList_click(li)">
+                  <div class="imgBox">
+                      <img :src="li.user.img" alt="">
+                  </div>
+                  <p><span>{{li.user.nickname}}</span></p>
+              </li>
+          </ul>
+      </div>
+      <div class="chatBox">
+          <div class="tit">
+              <p><span>{{meuser.nickname}} -- {{touser.nickname}}</span></p>
+          </div>
+          <div ref="msgBox" class="msgBox bootclearfix">
+              <dl :class="li.from==meuser.username ? 'right' : 'left'" v-for="li in friendsList[touser.username].chatRecord">
+                  <dt>
+                      <div class="imgBox">
+                          <img src="//www.baidu.com/img/bd_logo1.png" alt="">
+                      </div>
+                      <p><span>{{li.from!=meuser.username ? friendsList[li.from].user.nickname : meuser.nickname}}</span><span>{{li.time}}</span></p>
+                  </dt>
+                  <dd>
+                      <i></i>
+                      <div v-if="li.type=='text'">
+                          <span>{{li.msg}}</span>
+                      </div>
+                      <div v-if="li.type=='img'">
+                          <img :src="li.src" alt="">
+                      </div>
+                  </dd>
+              </dl>
+          </div>
+          <div class="inputBox">
+              <!-- <form name="img"> -->
+                  <p class="btnBox">
+                      <label class="imgBtn">
+                          <span>图片</span>
+                          <input type="file" accept="image/jpeg,image/png,image/gif" name="file" />
+                      </label>
+                  </p>
+              <!-- </form> -->
+              <textarea ref="textarea" name="msg" id="" rows="3" @keyup.enter="sendText_click()"></textarea>
+              <a href="javascript:;" class="sendBtn" @click="sendText_click()">发送</a>
+          </div>
+      </div>
+  </div>
+
+    <!-- <script type="text/javascript" src="../cdn/js/zepto.min.js"></script> -->
+    <script type="text/javascript" src="../cdn/js/vue.min.js"></script>
+    <!-- ie9 以下 axios兼容 -->
+    <script type="text/javascript" src="../cdn/js/es6-promise.auto.min.js"></script>
+    <script type="text/javascript" src="../cdn/js/axios.min.js"></script>
+    <!-- <script type="text/javascript" src="../cdn/js/mock-min.js"></script> -->
+
+    <script type="text/javascript" src="../dist/js/index.js"></script>
+
+</body>
+</html>

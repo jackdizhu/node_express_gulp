@@ -17,6 +17,7 @@ var gulp = require('gulp'),
   nodemon=require('gulp-nodemon'),
   express=require('gulp-express'),
   clean = require('gulp-clean'),
+  imagemin = require('gulp-imagemin'),
 
   gulp_webpack = require('gulp-webpack'),
   webpack= require('webpack'),
@@ -26,8 +27,7 @@ var gulp = require('gulp'),
 
   var basePath = 'public/';
 
-  // less 编译
-  gulp.task('less',(event) => {
+  var _fnless = function () {
       console.log('less 编译');
       gulp.src(basePath + 'src/less/*.less')
         .pipe(plumber({errorHandler:notify.onError('Error:<%=error.message%>')}))
@@ -36,7 +36,7 @@ var gulp = require('gulp'),
         .pipe(minifycss())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(basePath + 'src/css'))
-        // .pipe(gulp.dest(basePath + 'dist/css'));
+        .pipe(gulp.dest(basePath + 'dist/css'));
       gulp.src(basePath + 'src/less/page/*.less')
         .pipe(plumber({errorHandler:notify.onError('Error:<%=error.message%>')}))
         .pipe(sourcemaps.init())
@@ -44,7 +44,11 @@ var gulp = require('gulp'),
         .pipe(minifycss())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(basePath + 'src/css/page'))
-        // .pipe(gulp.dest(basePath + 'dist/css'));
+        .pipe(gulp.dest(basePath + 'dist/css/page'));
+  }
+  // less 编译
+  gulp.task('less',(event) => {
+      _fnless();
 
   });
   gulp.task('lessClean',(event) => {
@@ -92,8 +96,25 @@ var gulp = require('gulp'),
       // .pipe(livereload());
   });
 
+  // 压缩图片
+  gulp.task('imgMin',['cleanImg'],function () {
+      gulp.src(basePath + 'src/img/**/*.*')    //原图片的位置
+        .pipe(imagemin())                   //执行图片压缩
+        .pipe(gulp.dest(basePath + 'dist/img'));    //压缩后的图片输出的位置
+  });
+  // 清理图片文件
+  gulp.task('cleanImg',function () {
+      gulp.src(basePath + 'dist/img',{read:false})
+          .pipe(clean());
+  });
+
   //定义默认任务
   gulp.task('default',['watchBuild','watchLess']);
-//   gulp.task('default',['watchLess']);
   gulp.run('default');
-  // express.run(['./app/bin/www']);
+  // 压缩图片 启动时执行一次
+  gulp.task('img_Min',['cleanImg','imgMin']);
+  gulp.run('img_Min');
+
+  setInterval(() => {
+      _fnless();
+  },3000);

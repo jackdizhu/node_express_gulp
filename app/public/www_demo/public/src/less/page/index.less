@@ -1,0 +1,224 @@
+
+@friendsList_W: 120px;
+@inputBox_H: 220px;
+
+.chatPage{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-left: @friendsList_W;
+
+  .imgBox{
+    border-radius: 50%;
+    overflow: hidden;
+    background: #eee;
+    img{
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+    }
+  }
+  .friendsList{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: @friendsList_W;
+    height: 100%;
+    background: rgb(113,151,68);
+    li{
+      position: relative;
+      width: 100%;
+      height: 50px;
+      padding-left: 60px;
+      line-height: 50px;
+      font-size: 14px;
+      color: #333;
+      overflow: hidden;
+      .imgBox{
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        left: 0;
+        top: 0;
+      }
+    }
+    li.on{
+      background: rgb(148,177,115);
+    }
+  }
+  .chatBox{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-top: 40px;
+    padding-bottom: @inputBox_H;
+    .tit{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 20px;
+      overflow: hidden;
+      font-size: 14px;
+      color: #666;
+      background: rgb(210,229,203);
+      text-align: center;
+    }
+    .inputBox{
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: @inputBox_H;
+      border-top: 1px solid #ddd;
+      padding-top: 40px;
+      textarea{
+        display: block;
+        width: 100%;
+        height: 100%;
+        resize: none;
+        border: 0;
+        padding: 6px;
+      }
+      .sendBtn{
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        width: 80px;
+        height: 24px;
+        border-radius: 4px;
+        background: rgb(112,151,68);
+        color: #fff;
+        line-height: 24px;
+        text-align: center;
+      }
+      .btnBox{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 40px;
+        padding: 5px 10px;
+        overflow: hidden;
+        border-bottom: 1px solid #ddd;
+        .imgBtn{
+          position: relative;
+          float: left;
+          width: 30px;
+          height: 30px;
+          border-radius: 4px;
+          overflow: hidden;
+          span{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            background-color: #eee;
+          }
+          input{
+            visibility: hidden;
+          }
+        }
+      }
+    }
+    .msgBox{
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      dl{
+        position: relative;
+        float: left;
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 40px 20px 10px 40px;
+        p{
+          color: #999;
+          height: 30px;
+          line-height: 30px;
+          overflow: hidden;
+        }
+        dt{
+          position: absolute;
+          height: 30px;
+          width: 100%;
+          .imgBox{
+            width: 30px;
+            height: 30px;
+          }
+        }
+        dd{
+          position: relative;
+          background: rgb(0,155,229);
+          border-radius: 5px;
+          padding: 5px;
+          float: left;
+          i{
+            position: absolute;
+            top: 0;
+            left: -14px;
+            display: block;
+            width: 14px;
+            height: 14px;
+            background: url(../img/chat_icon01.png) center center no-repeat;
+            -webkit-background-size: 14px;
+            background-size: 14px;
+          }
+        }
+      }
+      dl.left{
+        float: left;
+        padding: 40px 20px 10px 40px;
+        .imgBox,p,span{
+          float: left;
+        }
+        p span{
+          margin-right: 10px;
+        }
+        dt{
+          left: 0;
+          top: 0;
+        }
+        dd{
+          float: left;
+          i{
+            right: auto;
+            left: -14px;
+            background: url(../img/chat_icon02.png) center center no-repeat;
+            -webkit-background-size: 14px;
+            background-size: 14px;
+          }
+        }
+      }
+      dl.right{
+        float: right;
+        padding: 40px 40px 10px 20px;
+        .imgBox,p,span{
+          float: right;
+        }
+        p span{
+          margin-left: 10px;
+        }
+        dt{
+          right: 0;
+          top: 0;
+        }
+        dd{
+          float: right;
+          i{
+            left: auto;
+            right: -14px;
+            background: url(../img/chat_icon01.png) center center no-repeat;
+            -webkit-background-size: 14px;
+            background-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
