@@ -1,2 +1,2 @@
 
-node+gulp+webpack+less 开发环境
+gulp+webpack+less+vue+axios+mock 开发环境
