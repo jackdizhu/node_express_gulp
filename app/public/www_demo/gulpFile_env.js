@@ -11,6 +11,7 @@ var gulp = require('gulp'),
   revCollector = require('gulp-rev-collector'),
   connect = require('gulp-connect');
   rename = require('gulp-rename'),
+  edit = require('gulp-edit'),
   sourcemaps = require('gulp-sourcemaps'),
   notify=require('gulp-notify'),
   plumber=require('gulp-plumber'),
@@ -18,6 +19,7 @@ var gulp = require('gulp'),
   express=require('gulp-express'),
   clean = require('gulp-clean'),
   imagemin = require('gulp-imagemin'),
+  htmlImport = require('gulp-html-import'),
 
   gulp_webpack = require('gulp-webpack'),
   webpack= require('webpack'),
@@ -25,7 +27,55 @@ var gulp = require('gulp'),
 
   devHtml = require('gulp-devHtml');
 
-  var basePath = 'public/';
+  var basePath = './';
+  var js_debug = 'false'; //调试模式
+
+  var _fnless = function () {
+      console.log('less 编译');
+      gulp.src(basePath + 'src/less/*.less')
+        .pipe(plumber({errorHandler:notify.onError('Error:<%=error.message%>')}))
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        // .pipe(minifycss())
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(basePath + 'src/styles'))
+        .pipe(gulp.dest(basePath + 'dist/styles'));
+      // gulp.src(basePath + 'src/less/page/*.less')
+      //   .pipe(plumber({errorHandler:notify.onError('Error:<%=error.message%>')}))
+      //   .pipe(sourcemaps.init())
+      //   .pipe(less())
+      //   .pipe(minifycss())
+      //   .pipe(sourcemaps.write('./'))
+      //   .pipe(gulp.dest(basePath + 'src/styles/page'))
+      //   .pipe(gulp.dest(basePath + 'dist/styles/page'));
+  };
+  var _cp_css = function () {
+      console.log('_cp_js');
+      gulp.src(basePath + 'src/styles/page_index.css')
+      .pipe(plumber({errorHandler:notify.onError('Error:<%=error.message%>')}))
+      .pipe(gulp.dest('D:/web/lxmstarapproach/src/css'))
+  };
+  var _cp_js = function () {
+      console.log('_cp_js');
+      gulp.src([basePath + 'src/scripts/queryResults_index.js',basePath + 'src/scripts/queryResults_index_tpl.js'])
+      .pipe(plumber({errorHandler:notify.onError('Error:<%=error.message%>')}))
+      .pipe(edit(function (str,callBack) {
+          str = str.replace(/__js_debug__/g,js_debug);
+          if(str){
+            callBack(null,str);
+          }else{
+            callBack('意外错误 . .');
+          }
+      }))
+      .pipe(gulp.dest('D:/web/lxmstarapproach/src/js'))
+  };
+  var _cp_html = function () {
+      console.log('_cp_html');
+      gulp.src([basePath + 'html/index.html'])
+      .pipe(plumber({errorHandler:notify.onError('Error:<%=error.message%>')}))
+      .pipe(htmlImport(basePath + 'html/com/'))
+      .pipe(gulp.dest('D:/web/test'))
+  }
 
   // less 编译
   gulp.task('less',(event) => {
