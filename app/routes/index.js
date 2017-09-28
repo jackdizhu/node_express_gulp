@@ -24,8 +24,8 @@ router.get('/', function(req, res, next) {
     // }else{
     //   res.redirect("/user/login");
     // }
+    // next();
     res.end('index');
-    next();
 });
 
 
