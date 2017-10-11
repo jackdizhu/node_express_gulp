@@ -97,6 +97,28 @@ app.use(function(req,res,next){
     }
 });
 
+// 设置多个 域名允许跨域
+// app.all('*', function(req, res, next) {
+//     if( req.headers.origin == 'https://www.google.com' || req.headers.origin == 'https://www.baidu.com' ){
+//         res.header("Access-Control-Allow-Origin", req.headers.origin);
+//         res.header('Access-Control-Allow-Methods', 'POST, GET');
+//         res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+//         res.header('Access-Control-Allow-Headers', 'Content-Type');
+//     }
+//     next();
+// });
+// 开启跨域
+app.use('/api/*', function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1');
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    if (req.method == 'OPTIONS') {
+        res.send(200); // 让options请求快速返回
+    }
+    else {
+        next();
+    }
+});
 // 路由
 app.use('/api', _api);
 

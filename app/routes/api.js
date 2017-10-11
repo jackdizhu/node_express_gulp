@@ -24,5 +24,10 @@ router.post('/', function(req, res, next) {
   res.json({index: 'index'});
   res.end();
 });
+router.post('/:name', function(req, res, next) {
+  console.log(req.body);
+  res.json({index: 'name'});
+  res.end();
+});
 
 module.exports = router;
