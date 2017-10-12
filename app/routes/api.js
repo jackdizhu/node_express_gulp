@@ -25,8 +25,10 @@ router.post('/', function(req, res, next) {
   res.end();
 });
 router.post('/:name', function(req, res, next) {
-  console.log(req.body);
-  res.json({index: 'name'});
+  
+  res[req.params.name] = true;
+
+  res.json({index: req.params.name});
   res.end();
 });
 
